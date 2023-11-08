@@ -26,6 +26,16 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver({importStyle: "sass"})],
-    }),
+    })
   ],
+  server: { 
+    //用来配置跨域
+    proxy: {
+      '/api': {
+        target: 'https://m.you.163.com',//目标服务器地址
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+    }
+  }
 })
