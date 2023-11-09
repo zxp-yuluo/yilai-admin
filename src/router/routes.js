@@ -1,14 +1,14 @@
-import Test1 from '@/components/test1.vue'
-import Test2 from '~/components/test2.vue'
+import Login from '../views/login/login.vue'
+import Home from '../views/home/index.vue'
 
 export default [
   {
-    path: "/test1",
-    component: Test1
+    path: "/login",
+    component: Login
   },
   {
-    path: "/test2",
-    component: Test2
+    path: "/home",
+    component: Home
   },
-  { path: '/', redirect: '/test1' }
+  { path: '/', redirect: '/login' }
 ]
