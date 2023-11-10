@@ -1,6 +1,6 @@
 <script setup>
 import { reactive,ref } from 'vue'
-import { User, Lock,Hide } from '@element-plus/icons-vue'
+import { User, Lock, Hide } from '@element-plus/icons-vue'
 const form = reactive({
   username: "",
   password: "",
@@ -48,8 +48,8 @@ const onSubmit = async (formEl) => {
       <el-form-item>
         <el-button type="primary" @click="onSubmit(ruleFormRef)">登录</el-button>
       </el-form-item>
-      
     </el-form>
+    
   </div>
   
 </template>
