@@ -47,7 +47,7 @@ export default defineConfig({
     //用来配置跨域
     proxy: {
       '/api': {
-        target: 'https://m.you.163.com',//目标服务器地址
+        target: 'http://localhost:1992',//目标服务器地址
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
