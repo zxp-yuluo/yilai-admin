@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class='test1'>test1</div>
+  <div class='index'>首页</div>
 </template>
 
 <style scoped>

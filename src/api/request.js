@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { storeToRefs } from 'pinia'
-import {useAccount} from "@/pinia/modules/useAccount"
+import { useAccount } from "@/pinia/modules/useAccount"
+import router from "@/router/index"
 const instance = axios.create({
   baseURL: "/api"
 })
@@ -11,9 +11,9 @@ instance.interceptors.request.use(
     // 获取本地仓库的token
     // const token = localStorage.getItem("token")
     // console.log("获取本地仓库的token",token);
-    const {account} = useAccount()
-    const {token} = account
-    if(token) {
+    const { account } = useAccount()
+    const { token } = account
+    if (token) {
       config.headers.Authorization = token
       config.headers.token = token
     }
@@ -24,9 +24,16 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
   response => {
-    return response.data;
+
+    const res = response.data
+    // if (res.code == 208) {
+    //   const redirect = encodeURIComponent(window.location.href)  // 当前地址栏的url
+    //   router.push(`/login?redirect=${redirect}`)
+    //   return Promise.reject(new Error(res.message || 'Error'))
+    // }
+    return res
   }, () => {
-    return new Promise(() => { })
+    return new Promise(() => {})
   })
 
 export default instance

@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class='test2'>test2</div>
+  <div class='user'>用户</div>
 </template>
 
 <style scoped>

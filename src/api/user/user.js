@@ -17,4 +17,5 @@ const urlHead = "/admin/system/user/"
 // })
 
 export const login = data => request.post(urlHead + "login",data)
+export const logout = () => request.get(urlHead + "logout")
 export const getUserinfo = () => request.get(urlHead + "getUserInfo")

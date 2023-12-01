@@ -4,7 +4,7 @@ import { reactive } from "vue"
 export const useAccount = defineStore('account', () => {
   let account = reactive({
     userInfo: null,
-    token: "111"
+    token: ""
   })
 
   function clearUserInfo() {

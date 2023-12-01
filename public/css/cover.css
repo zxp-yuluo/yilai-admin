@@ -1,0 +1,6 @@
+.el-breadcrumb__item .el-breadcrumb__inner.is-link {
+  font-weight: normal;
+}
+.el-breadcrumb__item.crumbActive .el-breadcrumb__inner.is-link {
+  font-weight:bold;
+}
