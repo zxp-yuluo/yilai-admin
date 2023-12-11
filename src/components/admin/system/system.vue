@@ -3,12 +3,10 @@
 
 <template>
   <div class='system'>
-    <RouterView />
+    <router-view />
   </div>
 </template>
 
 <style scoped>
-.system {
-  height: 100%;
-}
+
 </style>

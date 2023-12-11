@@ -1,15 +1,12 @@
-import Login from '../views/login/login.vue'
-
-import Home from '../views/home/index.vue'
+import Login from "~/views/login.vue";
+import Admin from "~/views/admin.vue";
 // 首页
-import Index from '../components/home/main/index/index.vue'
+import Home from '../components/admin/home/home.vue'
 // 系统管理
-import System from '../components/home/main/system/system.vue'
-import User from '../components/home/main/system/user.vue'
-import Role from "../components/home/main/system/role.vue"
-import Menu from "../components/home/main/system/menu.vue"
-// 商品管理
-import Product from '../components/home/main/product/product.vue'
+import System from '../components/admin/system/system.vue'
+import User from '../components/admin/system/user.vue'
+import Role from "../components/admin/system/role.vue"
+import Menu from "../components/admin/system/menu.vue"
 
 export default [
   {
@@ -17,13 +14,13 @@ export default [
     component: Login
   },
   {
-    path: "/home",
-    component: Home,
+    path: "/admin",
+    component: Admin,
     children: [
       {
-        path: "index",
-        name: "index",
-        component: Index
+        path: "home",
+        name: "home",
+        component: Home
       },
       {
         path: "system",
@@ -63,7 +60,7 @@ export default [
       },
       {
         path: '',
-        redirect: '/home/index'
+        redirect: '/admin/home'
       }
     ]
   },

@@ -1,52 +1,48 @@
 <script setup>
+import { ref } from 'vue'
 import {
   Location,
+  Setting,
   Grid,
   HomeFilled,
-  Avatar,
-  Setting,
+  Avatar
 } from '@element-plus/icons-vue'
-import { useApp } from "../../../pinia/modules/useApp"
+import { useApp } from "~/pinia/modules/useApp"
+import { storeToRefs } from 'pinia'
 
-const app = useApp()
-const sidebar = app.app.sidebar
-const { addCrumb,setActiveMenu } = app
-const mapIcon = {
-  Setting,
-  Avatar,
-  Grid,
-  HomeFilled,
-  Location
-}
-
+// ---------------- 定义数据模型 ----------------
+const { addCrumb, setActiveMenu } = useApp()
+// 控制菜单是否展开
+const { sidebar } = storeToRefs(useApp())
+// 菜单选项
 const menu = [
   {
-    "path": "/home",
-    "name": "home",
+    "path": "/admin",
+    "name": "admin",
     "label": "首页",
     "icon": "HomeFilled",
-    "url": "Home/Home"
+    "url": "Admin/Home"
   },
   {
-    "path": "/home/system",
+    "path": "/admin/system",
     "name": "system",
     "label": "系统管理",
     "icon": "Location",
     "children": [
       {
-        "path": "/home/system/user",
+        "path": "/admin/system/user",
         "name": "user",
         "label": "用户管理",
         "url": "SystemManage/User"
       },
       {
-        "path": "/home/system/role",
+        "path": "/admin/system/role",
         "name": "role",
         "label": "角色管理",
         "url": "SystemManage/Role"
       },
       {
-        "path": "/home/system/menu",
+        "path": "/admin/system/menu",
         "name": "menu",
         "label": "菜单管理",
         "url": "SystemManage/Menu"
@@ -54,44 +50,28 @@ const menu = [
     ]
   }
 ]
-// {
-//   "path": "/home/other",
-//   "label": "其它",
-//   "icon": "Location",
-//   "children": [
-//     {
-//       "path": "/home/other/page1",
-//       "name": "page1",
-//       "label": "页面1",
-//       "url": "Othere/PageOne"
-//     },
-//     {
-//       "path": "/home/other/page2",
-//       "name": "page2",
-//       "label": "页面2",
-//       "url": "Othere/PageTwo"
-//     }
-//   ]
-// }
+// 字体图标映射
+const mapIcon = {
+  Setting,
+  Avatar,
+  Grid,
+  HomeFilled,
+  Location
+}
+// ---------------- 钩子函数 ----------------
+// ---------------- 操作方法 ----------------
 
-const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath)
+// 点击菜单选项
+const handleClickMenu = (label) => {
+  addCrumb(label)
+  setActiveMenu(label.label)
 }
-const handleClose = (key, keyPath) => {
-  console.log(key, keyPath)
-}
-const handleClickMenu = (menuItem) => {
-  addCrumb({lable: menuItem.label,path: menuItem.path})
-  setActiveMenu(menuItem.label)
-}
+
 </script>
-<!-- <el-icon>
-  <component :is="son.icon"></component>
-</el-icon> -->
+
 <template>
-  <header class="head">{{ sidebar.isCollapse ? "衣赖" : "YILAI衣赖" }}</header>
-  <el-menu router collapse-transition :collapse="sidebar.isCollapse" default-active="/home" class="el-menu-vertical-demo"
-    @open="handleOpen" @close="handleClose">
+  <el-menu class="menu" router default-active="/admin" :collapse="sidebar" collapse-transition>
+    <header class="head">衣赖</header>
     <template v-for="son in menu" :key="son.name">
       <template v-if="son.children">
         <el-sub-menu :index="son.path">
@@ -117,7 +97,7 @@ const handleClickMenu = (menuItem) => {
   </el-menu>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .head {
   height: 60px;
   font-size: 16px;
@@ -126,7 +106,8 @@ const handleClickMenu = (menuItem) => {
   background: #ffffff;
   word-wrap: break-word;
 }
-.el-menu {
+
+.menu {
   border: none;
 }
 </style>

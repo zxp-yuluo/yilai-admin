@@ -11,37 +11,37 @@ export default defineConfig({
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
-      '@/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "~/assets/css/element.scss" as *;`,
+        additionalData: `@use "~/assets/scss/index.scss" as *;`,
       },
     },
   },
   plugins: [
     vue(),
     AutoImport({
+      imports: ['vue'],
       resolvers: [
-        ElementPlusResolver()
+        ElementPlusResolver(),
+        IconsResolver({
+          prefix: 'Icon',
+        }),
       ],
     }),
     Components({
       resolvers: [
-        ElementPlusResolver(
-          { importStyle: "sass" }
-        ),
+        ElementPlusResolver({importStyle: "sass"}),
         IconsResolver({
-          prefix: false,
           enabledCollections: ['ep'],
-        })
-      ],
+        }),
+      ]
     }),
     Icons({
       autoInstall: true,
-    })
+    }),
   ],
   server: {
     //用来配置跨域

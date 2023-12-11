@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class='menu'>菜单</div>
+  <div class='menu'>menu</div>
 </template>
 
 <style scoped>

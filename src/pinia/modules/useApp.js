@@ -1,48 +1,53 @@
 import { defineStore } from 'pinia'
-import { reactive,toRaw } from "vue"
+import { reactive, ref } from "vue"
 
 export const useApp = defineStore('app', () => {
-  let app = reactive({
-    sidebar: {
-      isCollapse: false
-    },
-    crumbList: [
-      {
-        lable: "首页",
-        path: "/home"
-      }
-    ],
-    activeMenu: "首页" ,  // 当前激活菜单
-  })
+  const token = ref(localStorage.getItem("token"));
+  const sidebar = ref(false)
+  const activeMenu = ref('首页')
+  const crumbList = reactive([
+    {
+      label: "首页",
+      path: "/admin"
+    }
+  ])
 
   // 侧边栏的菜单展开/隐藏
-  function setIsCollapse(b) {
-    app.sidebar.isCollapse = b
+  function setSidebar(b) {
+    sidebar.value = b
   }
 
   // 添加crumbList元素
   const addCrumb = (object) => {
-    let temp = app.crumbList.filter(item => item.path == object.path)
+    let temp = crumbList.filter(item => item.path == object.path)
     // 有就退出
-    if(temp.length) return
+    if (temp.length) return
     // 没有就添加
-    app.crumbList.push(object)
+    crumbList.push(object)
   }
   // 删除crumbList元素
   const delCrumb = (path) => {
-    let findIndex = app.crumbList.findIndex(item => item.path == path)
-    app.crumbList.splice(findIndex,1)
+    let findIndex = crumbList.findIndex(item => item.path == path)
+    crumbList.splice(findIndex, 1)
   }
 
   // 设置当前激活菜单
-  const setActiveMenu = (lable) => {
-    app.activeMenu = lable
+  const setActiveMenu = (label) => {
+    activeMenu.value = label
+  }
+
+  function setToken(t) {
+    token.value = t
   }
   return {
-    app,
-    setIsCollapse,
+    token,
+    sidebar,
+    activeMenu,
+    crumbList,
+    setSidebar,
     addCrumb,
     delCrumb,
+    setToken,
     setActiveMenu
   }
 })

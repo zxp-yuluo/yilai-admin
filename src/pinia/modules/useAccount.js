@@ -1,29 +1,15 @@
 import { defineStore } from 'pinia'
-import { reactive } from "vue"
+import { ref } from "vue"
 
 export const useAccount = defineStore('account', () => {
-  let account = reactive({
-    userInfo: null,
-    token: ""
-  })
 
-  function clearUserInfo() {
-    account.userInfo = null
-  }
-  function clearToken() {
-    account.token = ""
-  }
-  function setUserInfo(userInfo) {
-    account.userInfo = userInfo
-  }
-  function setToken(token) {
-    account.token = token
+  const userInfo = ref(null)
+
+  function setUserInfo(u) {
+    userInfo.value = u
   }
   return {
-    account,
-    clearUserInfo,
-    setUserInfo,
-    setToken,
-    clearToken
+    userInfo,
+    setUserInfo
   }
 })

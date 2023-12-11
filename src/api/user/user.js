@@ -1,21 +1,22 @@
-import request from "../request";
+import ajax from '../ajax'
 
-const urlHead = "/admin/system/user/"
+const BASE_URL = "/admin/system/user/"
 
-// export const login = data => {
-//   return request({
-//     url: "/admin/system/user/login",
-//     method: "POST",
-//     data 
-//   })
-// }
+/**
+ * 登录接口
+ * @param {*} data userName：用户名，password：密码 
+ * @returns 
+ */
+export const login = data => ajax.post(BASE_URL + "login",data)
 
-// export const login = data => request({
-//   url: "/admin/system/user/login",
-//   method: "POST",
-//   data 
-// })
+/**
+ * 获取用户信息
+ * @returns 
+ */
+export const getUserinfo = () => ajax.get(BASE_URL + "getUserInfo")
 
-export const login = data => request.post(urlHead + "login",data)
-export const logout = () => request.get(urlHead + "logout")
-export const getUserinfo = () => request.get(urlHead + "getUserInfo")
+/**
+ * 退出登录
+ * @returns 
+ */
+export const logout = () => ajax.get(BASE_URL + "logout")
