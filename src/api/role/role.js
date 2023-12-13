@@ -29,4 +29,10 @@ export const updateRole = data => ajax.put(BASE_URL + 'updateRole',data)
  * 删除角色
  * @returns 
  */
-export const deleteRole = (id) => ajax.delete(BASE_URL + `deleteRole/${id}`)
+export const deleteRole = id => ajax.delete(BASE_URL + `deleteRole/${id}`)
+
+/**
+ * 获取角色
+ * @returns 
+ */
+export const getRole = id => ajax.get(BASE_URL + `getRole/${id}`)

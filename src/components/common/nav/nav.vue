@@ -7,16 +7,22 @@ import { storeToRefs } from 'pinia'
 // -------------- 定义数据模型 --------------
 const app = useApp()
 const router = useRouter()
-const { crumbList, delCrumb, setActiveMenu } = app
-const { activeMenu } = storeToRefs(app)
+const { crumbList, delCrumb, setActiveMenu, activeMenu } = app
 
 
 // -------------- 操作方法 --------------
 
 // 点击 tag
 const HandleClickTag = (tag) => {
-  if (activeMenu.value == tag.label) return
-  setActiveMenu(tag.label)
+  if (activeMenu.label == tag.label) return
+  setActiveMenu({
+    label: tag.label,
+    path: tag.path,
+  })
+  localStorage.setItem("activeMenu", JSON.stringify({
+    label: tag.label,
+    path: tag.path,
+  }))
   router.push(tag.path)
 }
 
@@ -26,15 +32,23 @@ const handleClose = (path) => {
   delCrumb(path)
   const length = crumbList.length
   router.push(crumbList[length - 1].path)
-  setActiveMenu(crumbList[length - 1].label)
+  setActiveMenu({
+    label: crumbList[length - 1].label,
+    path: crumbList[length - 1].path
+  })
+  localStorage.setItem("activeMenu", JSON.stringify({
+    label: crumbList[length - 1].label,
+    path: crumbList[length - 1].path
+  }))
+  localStorage.setItem("crumbList", JSON.stringify(crumbList.value))
 }
 </script>
 
 <template>
   <div class="nav">
-    <el-tag v-for="tag in crumbList" :key="tag.label" class="tag" :effect="activeMenu == tag.label ? 'dark' : 'light'"
-      :closable="tag.path != '/admin'" :disable-transitions="false" @close="handleClose(tag.path)"
-      @click="HandleClickTag(tag)">
+    <el-tag v-for="tag in crumbList" :key="tag.label" class="tag"
+      :effect="activeMenu.label == tag.label ? 'dark' : 'light'" :closable="tag.path != '/admin'"
+      :disable-transitions="false" @close="handleClose(tag.path)" @click="HandleClickTag(tag)">
       {{ tag.label }}
     </el-tag>
   </div>

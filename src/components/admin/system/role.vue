@@ -79,7 +79,7 @@ const handleAddRole = async () => {
   } else if (operate.value == 'update') {
     result = await updateRole(sysRole)
   }
-  const { code } = result
+  const { code,message } = result
   if (code == 200) {
     // 关闭弹框
     dialogVisible.value = false
@@ -88,8 +88,8 @@ const handleAddRole = async () => {
     pageParams.page = 1
     // 刷新页面
     keywordSearchRequest()
-  } else {
-    ElMessage.error(operate.value == 'add' ? "添加失败！" : "修改失败！")
+  }else {
+    ElMessage.error(message)
   }
 }
 
@@ -121,11 +121,11 @@ const handleClickDeleteRole = async id => {
       ElMessage.success("删除成功！")
       // 刷新页面
       keywordSearchRequest()
-    } else {
+    }else {
       ElMessage.error("删除失败！")
     }
   }).catch(() => {
-
+    ElMessage.error("删除失败！")
   })
 }
 
@@ -167,7 +167,7 @@ const handleClickDeleteRole = async id => {
       <el-pagination class="pagination" v-model:current-page="pageParams.page" v-model:page-size="pageParams.limit" small
         layout="total, prev, pager, next, jumper" :total="total" @current-change="handleCurrentChange" />
 
-      <!-- 添加角色弹框 -->
+      <!-- 添加/修改角色弹框 -->
       <el-dialog v-model="dialogVisible" title="添加或修改角色" width="30%">
         <el-form label-width="120px">
           <el-form-item label="角色名称">

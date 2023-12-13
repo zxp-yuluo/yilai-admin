@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import {
   Location,
   Setting,
@@ -11,9 +12,10 @@ import { useApp } from "~/pinia/modules/useApp"
 import { storeToRefs } from 'pinia'
 
 // ---------------- 定义数据模型 ----------------
+const { path } = useRoute()
 const { addCrumb, setActiveMenu } = useApp()
 // 控制菜单是否展开
-const { sidebar } = storeToRefs(useApp())
+const { sidebar, activeMenu,crumbList } = storeToRefs(useApp())
 // 菜单选项
 const menu = [
   {
@@ -59,18 +61,54 @@ const mapIcon = {
   Location
 }
 // ---------------- 钩子函数 ----------------
+onMounted(() => {
+  getPathItem(menu, path)
+  if (temp) {
+    setActiveMenu({
+      label: temp.label,
+      path: temp.path,
+    })
+    localStorage.setItem("activeMenu", JSON.stringify({
+      label: temp.label,
+      path: temp.path,
+    }))
+  }
+})
 // ---------------- 操作方法 ----------------
 
+// 过滤
+let temp;
+const getPathItem = (array, path) => {
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+    if (element.children) {
+      getPathItem(element.children, path)
+    } else {
+      if (element.path == path) {
+        temp = element
+      }
+    }
+  }
+}
+
 // 点击菜单选项
-const handleClickMenu = (label) => {
-  addCrumb(label)
-  setActiveMenu(label.label)
+const handleClickMenu = (item) => {
+  addCrumb(item)
+  setActiveMenu({
+    label: item.label,
+    path: item.path,
+  })
+  localStorage.setItem("activeMenu", JSON.stringify({
+    label: item.label,
+    path: item.path,
+  }))
+  localStorage.setItem("crumbList", JSON.stringify(crumbList.value))
 }
 
 </script>
 
 <template>
-  <el-menu class="menu" router default-active="/admin" :collapse="sidebar" collapse-transition>
+  <el-menu class="menu" router :default-active="activeMenu.path" :collapse="sidebar" collapse-transition>
     <header class="head">衣赖</header>
     <template v-for="son in menu" :key="son.name">
       <template v-if="son.children">

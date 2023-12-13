@@ -7,11 +7,13 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { logout } from "~/api/user/user.js"
 
+
 // ---------------- 定义数据模型 ----------------
+
 const router = useRouter()
 const app = useApp()
-const { crumbList, setSidebar, setActiveMenu, setToken } = app
-const { sidebar, activeMenu } = storeToRefs(app)
+const { crumbList, setSidebar, setActiveMenu, setToken, activeMenu, resetCrumb } = app
+const { sidebar } = storeToRefs(app)
 const { setUserInfo } = useAccount()
 
 
@@ -35,7 +37,6 @@ const exitLogin = () => {
   )
     .then(async () => {
       const { code, message } = await logout()
-      console.log(code, message);
       if (code != 200) {
         ElMessage({
           type: 'error',
@@ -46,8 +47,18 @@ const exitLogin = () => {
       // 删除本地和pinia中的token和个人信息
       localStorage.removeItem("token")
       localStorage.removeItem("userInfo")
+      localStorage.removeItem("activeMenu")
+      localStorage.removeItem("crumbList")
       setToken("")
       setUserInfo(null)
+      setActiveMenu({
+        label: "首页",
+        path: "/admin"
+      })
+      resetCrumb({
+        label: "首页",
+        path: "/admin"
+      })
       // 返回登录页面
       router.replace('/login')
       ElMessage({
@@ -64,9 +75,16 @@ const exitLogin = () => {
 }
 
 // 点击面包屑选项
-const handleClickCrumb = (label) => {
-  if (activeMenu.value == label) return
-  setActiveMenu(label)
+const handleClickCrumb = (item) => {
+  if (activeMenu.label == item.label) return
+  setActiveMenu({
+    label: item.label,
+    path: item.path
+  })
+  localStorage.setItem("activeMenu", JSON.stringify({
+    label: item.label,
+    path: item.path
+  }))
 }
 </script>
 
@@ -77,7 +95,7 @@ const handleClickCrumb = (label) => {
       <!-- 面包屑 -->
       <el-breadcrumb separator="/" class="crumb">
         <template v-for="item in crumbList">
-          <el-breadcrumb-item @click="handleClickCrumb(item.label)" :class="activeMenu == item.label ? 'crumbActive' : ''"
+          <el-breadcrumb-item @click="handleClickCrumb(item)" :class="activeMenu.label == item.label ? 'crumbActive' : ''"
             :to="{ path: `${item.path}` }">{{ item.label
             }}</el-breadcrumb-item>
         </template>

@@ -2,15 +2,20 @@ import { defineStore } from 'pinia'
 import { reactive, ref } from "vue"
 
 export const useApp = defineStore('app', () => {
+  let activeMenuForm = JSON.parse(localStorage.getItem("activeMenu"))
+  let crumbListForm = JSON.parse(localStorage.getItem("crumbList"))
+  activeMenuForm = activeMenuForm ? activeMenuForm : {
+    label: "首页",
+    path: "/admin"
+  }
+  crumbListForm = crumbListForm ? crumbListForm : [{
+    label: "首页",
+    path: "/admin"
+  }]
   const token = ref(localStorage.getItem("token"));
   const sidebar = ref(false)
-  const activeMenu = ref('首页')
-  const crumbList = reactive([
-    {
-      label: "首页",
-      path: "/admin"
-    }
-  ])
+  const activeMenu = reactive(activeMenuForm)
+  const crumbList = reactive(crumbListForm)
 
   // 侧边栏的菜单展开/隐藏
   function setSidebar(b) {
@@ -31,9 +36,17 @@ export const useApp = defineStore('app', () => {
     crumbList.splice(findIndex, 1)
   }
 
+  // 重置crumbList
+  const resetCrumb = (item) => {
+    crumbList.length = 1
+    crumbList[0].label = item.label
+    crumbList[0].path = item.path
+  }
+
   // 设置当前激活菜单
-  const setActiveMenu = (label) => {
-    activeMenu.value = label
+  const setActiveMenu = (menu) => {
+    activeMenu.label = menu.label
+    activeMenu.path = menu.path
   }
 
   function setToken(t) {
@@ -47,6 +60,7 @@ export const useApp = defineStore('app', () => {
     setSidebar,
     addCrumb,
     delCrumb,
+    resetCrumb,
     setToken,
     setActiveMenu
   }

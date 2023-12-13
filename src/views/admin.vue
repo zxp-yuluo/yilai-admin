@@ -3,15 +3,14 @@ import CommonAside from '../components/common/aside/aside.vue'
 import CommonHeader from '../components/common/header/header.vue'
 import CommonNav from "../components/common/nav/nav.vue"
 import Main from '../components/admin/main.vue';
-import {useApp} from "~/pinia/modules/useApp"
+import { useApp } from "~/pinia/modules/useApp"
 import { storeToRefs } from 'pinia'
-const {sidebar} = storeToRefs(useApp())
-
+const { sidebar } = storeToRefs(useApp())
 </script>
 
 <template>
   <el-container class="common-layout">
-    <el-aside :width="sidebar?'auto':'200px'" class="aside">
+    <el-aside :width="sidebar ? 'auto' : '200px'" class="aside">
       <common-aside />
     </el-aside>
     <el-container>
@@ -30,6 +29,7 @@ const {sidebar} = storeToRefs(useApp())
 .common-layout {
   height: 100%;
   width: 100%;
+
   .header {
     background: #fff;
   }
