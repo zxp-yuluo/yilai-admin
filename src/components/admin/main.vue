@@ -6,4 +6,8 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.main {
+  height: 100%;
+}
+</style>

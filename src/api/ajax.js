@@ -41,11 +41,11 @@ instance.interceptors.response.use(response => {
     setUserInfo(null)
     setActiveMenu({
       label: "首页",
-      path: "/admin"
+      path: "/admin/home"
     })
     resetCrumb({
       label: "首页",
-      path: "/admin"
+      path: "/admin/home"
     })
     router.push(`/login`)
     ElMessage.error(res.message)

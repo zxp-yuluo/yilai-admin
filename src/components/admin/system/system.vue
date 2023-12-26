@@ -8,5 +8,7 @@
 </template>
 
 <style scoped>
-
+.system {
+  height: 100%;
+}
 </style>

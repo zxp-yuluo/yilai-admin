@@ -36,3 +36,17 @@ export const deleteRole = id => ajax.delete(BASE_URL + `deleteRole/${id}`)
  * @returns 
  */
 export const getRole = id => ajax.get(BASE_URL + `getRole/${id}`)
+
+/**
+ * 根据id获取角色菜单列表和用户已分配的角色菜单的id列表
+ * @param {number} id 
+ * @returns 
+ */
+export const getRoleMenuIds = id => ajax.get(`/admin/system/roleMenu/findRoleMenu/${id}`)
+
+/**
+ * 给角色分配菜单
+ * @param {*} data 
+ * @returns 
+ */
+export const assignRoleMenu = data => ajax.post(`/admin/system/roleMenu/assignMenu`,data)

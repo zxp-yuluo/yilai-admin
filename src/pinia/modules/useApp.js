@@ -6,11 +6,11 @@ export const useApp = defineStore('app', () => {
   let crumbListForm = JSON.parse(localStorage.getItem("crumbList"))
   activeMenuForm = activeMenuForm ? activeMenuForm : {
     label: "首页",
-    path: "/admin"
+    path: "/admin/home"
   }
   crumbListForm = crumbListForm ? crumbListForm : [{
     label: "首页",
-    path: "/admin"
+    path: "/admin/home"
   }]
   const token = ref(localStorage.getItem("token"));
   const sidebar = ref(false)

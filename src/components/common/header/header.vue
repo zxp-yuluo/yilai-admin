@@ -53,11 +53,11 @@ const exitLogin = () => {
       setUserInfo(null)
       setActiveMenu({
         label: "首页",
-        path: "/admin"
+        path: "/admin/home"
       })
       resetCrumb({
         label: "首页",
-        path: "/admin"
+        path: "/admin/home"
       })
       // 返回登录页面
       router.replace('/login')

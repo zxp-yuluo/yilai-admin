@@ -40,14 +40,15 @@ const handleClose = (path) => {
     label: crumbList[length - 1].label,
     path: crumbList[length - 1].path
   }))
-  localStorage.setItem("crumbList", JSON.stringify(crumbList.value))
+  console.log(crumbList);
+  localStorage.setItem("crumbList", JSON.stringify(crumbList))
 }
 </script>
 
 <template>
   <div class="nav">
     <el-tag v-for="tag in crumbList" :key="tag.label" class="tag"
-      :effect="activeMenu.label == tag.label ? 'dark' : 'light'" :closable="tag.path != '/admin'"
+      :effect="activeMenu.label == tag.label ? 'dark' : 'light'" :closable="tag.path != '/admin/home'"
       :disable-transitions="false" @close="handleClose(tag.path)" @click="HandleClickTag(tag)">
       {{ tag.label }}
     </el-tag>

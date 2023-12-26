@@ -57,3 +57,11 @@ export const deleteUser = id => ajax.delete(BASE_URL + `deleteUser/${id}`)
  * @returns 
  */
 export const assign = data => ajax.post(BASE_URL + `assign`,data)
+
+/**
+ * 
+ * @returns 获取用户可操作的菜单列表
+ */
+export const getUserMenuById = () => ajax.get(BASE_URL + `menus`)
+
+

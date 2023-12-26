@@ -10,6 +10,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useApp } from "~/pinia/modules/useApp"
 import { storeToRefs } from 'pinia'
+import {getUserMenuById} from "~/api/user/user"
 
 // ---------------- 定义数据模型 ----------------
 const { path } = useRoute()
@@ -17,13 +18,13 @@ const { addCrumb, setActiveMenu } = useApp()
 // 控制菜单是否展开
 const { sidebar, activeMenu,crumbList } = storeToRefs(useApp())
 // 菜单选项
+const menuList = ref([])
 const menu = [
   {
-    "path": "/admin",
+    "path": "/admin/home",
     "name": "admin",
     "label": "首页",
     "icon": "HomeFilled",
-    "url": "Admin/Home"
   },
   {
     "path": "/admin/system",
@@ -34,20 +35,17 @@ const menu = [
       {
         "path": "/admin/system/user",
         "name": "user",
-        "label": "用户管理",
-        "url": "SystemManage/User"
+        "label": "用户管理"
       },
       {
         "path": "/admin/system/role",
         "name": "role",
-        "label": "角色管理",
-        "url": "SystemManage/Role"
+        "label": "角色管理"
       },
       {
         "path": "/admin/system/menu",
         "name": "menu",
-        "label": "菜单管理",
-        "url": "SystemManage/Menu"
+        "label": "菜单管理"
       }
     ]
   }
@@ -73,6 +71,7 @@ onMounted(() => {
       path: temp.path,
     }))
   }
+  getUserMenuByIdData()
 })
 // ---------------- 操作方法 ----------------
 
@@ -104,7 +103,14 @@ const handleClickMenu = (item) => {
   }))
   localStorage.setItem("crumbList", JSON.stringify(crumbList.value))
 }
-
+// 菜单列表请求
+const getUserMenuByIdData = async () => {
+  const {code,data} = await getUserMenuById()
+  console.log(code,data);
+  if(code == 200) {
+    menuList.value = data
+  }
+}
 </script>
 
 <template>
