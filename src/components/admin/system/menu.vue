@@ -70,7 +70,7 @@ const handleClickAddNode = (row) => {
 
 // 点击弹框的提交按钮
 const handleClickSubmit = () => {
-  const value = menuForm
+  const value = menuForm.value
   switch (dialogTitle.value) {
     case "添加":
       addData(value)
@@ -106,12 +106,28 @@ const handelClickDelete = (row) => {
 
 //#endregion 
 
+// 路由处理
+
+const recursionFun = (arr) => {
+  arr.forEach(ele => {
+    const temp = ele.component.split("/")
+    ele.component = temp[temp.length -1]
+    if(ele.children.length > 0) {
+      recursionFun(ele.children)
+    }
+  });
+}
+
+
+
+
+
 //#region ---------- 请求方法 ----------
 // 菜单列表请求
 const fetchData = async (msg) => {
   const { code, data } = await findMenu();
-  console.log(code, data);
   if (code == 200) {
+    recursionFun(data)
     menuList.value = data
     msg ? ElMessage.success(msg) : ""
   }
@@ -176,7 +192,9 @@ const deleteData = async (id) => {
         <el-table-column prop="title" label="菜单标题" />
         <el-table-column prop="component" label="路由名称" />
         <el-table-column align="center" width="120px" prop="sortValue" label="排序" />
-        <el-table-column align="center" width="120px" prop="status" label="状态" />
+        <el-table-column align="center" width="120px" prop="status" label="状态" #default="scope">
+          {{ scope.row.status == 1 ? '正常' : '停用' }}
+        </el-table-column>
         <el-table-column align="center" width="180px" prop="createTime" label="创建时间" />
         <el-table-column label="操作">
           <template #default="scope">

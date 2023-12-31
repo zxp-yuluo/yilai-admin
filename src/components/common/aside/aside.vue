@@ -5,18 +5,19 @@ import {
   Location,
   Setting,
   Grid,
+  ShoppingBag,
   HomeFilled,
   Avatar
 } from '@element-plus/icons-vue'
 import { useApp } from "~/pinia/modules/useApp"
 import { storeToRefs } from 'pinia'
-import {getUserMenuById} from "~/api/user/user"
+import { getUserMenuById } from "~/api/user/user"
 
 // ---------------- 定义数据模型 ----------------
 const { path } = useRoute()
 const { addCrumb, setActiveMenu } = useApp()
 // 控制菜单是否展开
-const { sidebar, activeMenu,crumbList } = storeToRefs(useApp())
+const { sidebar, activeMenu, crumbList } = storeToRefs(useApp())
 // 菜单选项
 const menuList = ref([])
 const menu = [
@@ -55,8 +56,16 @@ const mapIcon = {
   Setting,
   Avatar,
   Grid,
+  ShoppingBag,
   HomeFilled,
   Location
+}
+
+const mapIcon1 = {
+  "分类管理": Setting,
+  "首页": HomeFilled,
+  "系统管理": Location,
+  "商品管理": ShoppingBag
 }
 // ---------------- 钩子函数 ----------------
 onMounted(() => {
@@ -105,23 +114,24 @@ const handleClickMenu = (item) => {
 }
 // 菜单列表请求
 const getUserMenuByIdData = async () => {
-  const {code,data} = await getUserMenuById()
-  console.log(code,data);
-  if(code == 200) {
+  const { code, data } = await getUserMenuById()
+  if (code == 200) {
     menuList.value = data
   }
 }
 </script>
 
 <template>
-  <el-menu class="menu" router :default-active="activeMenu.path" :collapse="sidebar" collapse-transition>
+  <el-menu unique-opened class="menu" router :default-active="activeMenu.path" :collapse="sidebar" collapse-transition>
     <header class="head">衣赖</header>
-    <template v-for="son in menu" :key="son.name">
+    <!-- <template v-for="son in menu" :key="son.name"> -->
+    <template v-for="son in menuList" :key="son.name">
       <template v-if="son.children">
         <el-sub-menu :index="son.path">
           <template #title>
             <el-icon>
-              <component :is="mapIcon[son.icon]"></component>
+              <!-- <component :is="mapIcon[son.icon]"></component> -->
+              <component :is="mapIcon1[son.label]"></component>
             </el-icon>
             <span>{{ son.label }}</span>
           </template>
@@ -132,7 +142,8 @@ const getUserMenuByIdData = async () => {
       <template v-else>
         <el-menu-item :index="son.path" @click="handleClickMenu(son)">
           <el-icon>
-            <component :is="mapIcon[son.icon]"></component>
+            <!-- <component :is="mapIcon[son.icon]"></component> -->
+            <component :is="mapIcon1[son.label]"></component>
           </el-icon>
           <template #title>{{ son.label }}</template>
         </el-menu-item>

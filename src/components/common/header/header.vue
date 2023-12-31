@@ -14,8 +14,7 @@ const router = useRouter()
 const app = useApp()
 const { crumbList, setSidebar, setActiveMenu, setToken, activeMenu, resetCrumb } = app
 const { sidebar } = storeToRefs(app)
-const { setUserInfo } = useAccount()
-
+const { setUserInfo,userInfo } = useAccount()
 
 // ---------------- 操作方法 ----------------
 
@@ -104,7 +103,7 @@ const handleClickCrumb = (item) => {
     <div class="header-right">
       <el-dropdown>
         <span class="el-dropdown-link">
-          <img class="avatar" src="../../../assets/images/avatar.jpg" />
+          <img class="avatar" :src="userInfo.avatar" />
         </span>
         <template #dropdown>
           <el-dropdown-menu>
